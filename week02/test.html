@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>string</title>
+</head>
+<body>
+    <script>
+        //写一段 JS 的函数，把一个 string 它代表的字节给它转换出来，用 UTF8 对 string 进行遍码。
+        function conversion(str) {
+            
+        }
+        conversion();
+
+
+
+        // 用 JavaScript 去设计狗咬人的代码
+        class Animal {
+            constructor(health) {
+                this.health = health;
+            }
+
+            bite() {
+                console.log('伤害值1');
+            }
+        }
+
+        class Human extends Animal{
+            constructor() {
+                super(100);
+            }
+            hurt(damage) {
+                this.health -= damage;
+            }
+        }
+
+        class Dog extends Animal{
+            bite() {
+                return 1;
+            }
+        }
+        const human = new Human();
+        const dog = new Dog();
+        human.hurt(dog.bite());
+    </script>
+</body>
+</html>
