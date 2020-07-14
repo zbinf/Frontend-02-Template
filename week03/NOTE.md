@@ -78,12 +78,15 @@ Symbol|x|x|x|x|x|Boxing|-|
 
 * Boxing 装箱转换：普通(基础)类型 -> object
 
-类型|对象|值|
---|:--:|--:|--:|
-Number|new Number(1)|1|
-String|new String('a')|'a'|
-Boolean|new Boolean(true)|true|
-Symbol|new Object(Symbol('a'))|Symbol('a')|
+
+|类型|对象|值|
+|--|:--:|--:|--:|
+|Number|new Number(1)|1|
+|String|new String('a')|'a'|
+|Boolean|new Boolean(true)|true|
+|Symbol|new Object(Symbol('a'))|Symbol('a')|
+
+
 
 ###### JS语句-运行时相关概念
 ###### JS语句-简单语句和复合语句
