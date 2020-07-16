@@ -66,9 +66,3 @@ StringToNumber('10');
 StringToNumber('0o10');
 StringToNumber('0xFF');
 
-
-
-function NumberToString() {
-    
-}
-NumberToString();
