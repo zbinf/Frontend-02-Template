@@ -89,7 +89,46 @@ Symbol|x|x|x|x|x|Boxing|-|
 
 
 ###### JS语句-运行时相关概念
+
+用语句完成控制流程 ，语句 分成3种类型：简单语句、组合语句、声明
+
+运行时概念
+
+* Completion Record 语句执行结果的记录
+
+    [[type]]: normal,break,continue, return, throw
+    [[value]]: 基本类型
+    [[target]]: label
+
+* Lexical Environment 作用域
+
 ###### JS语句-简单语句和复合语句
+
+1.简单语句
+
+* ExpressionStatement - 表达式语句
+
+* EmptyStatement -空语句（单独的一个分号，无作用）
+* DebuggStatement -断点（专门用于调试，生产环境无作用）
+
+* ThrowStatement -用于抛出异常
+* ContinueStatement -结束此次循环，继续下一次
+* BreakStatement -结束循环
+* ReturnStatement -返回函数值
+
+2.复合语句
+
+* BlockStatement - 语句块（用法 用花括号扩起来 ：{...}, 作用：可以容纳多个语句)
+* if
+* Switch
+* Iteration - 循环语句 （eg： for循环，while，do...while,...）
+* With
+* Labelled
+* Try
+
+*带label的break语句可以跳出循环*
+
+
 ###### JS语句-声明
 ###### JS结构化-宏任务和微任务
 ###### JS结构化-函数调用
