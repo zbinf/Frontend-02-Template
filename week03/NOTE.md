@@ -128,7 +128,34 @@ Symbol|x|x|x|x|x|Boxing|-|
 
 *带label的break语句可以跳出循环*
 
-
 ###### JS语句-声明
+
+声明 ：函数声明、类声明、变量声明
+
+
+在声明前使用会报错：
+class,const,let 
+在声明前使用不会报错：
+function
+function *
+async function
+async function *
+var
+
+作用域
+
 ###### JS结构化-宏任务和微任务
+
+
 ###### JS结构化-函数调用
+
+realm 保存内置对象的  
+
+js 中，函数表达式和对象直接量都会创建对象，使用.做隐式转换也会创建对象：
+eg：
+var a = 1 // 创建一个object对象
+1.toString() 
+
+那么这些对象会被放进Realm里面
+
+不同的Realm实例之间是相互独立的
