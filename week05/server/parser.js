@@ -7,6 +7,7 @@
 
 const css = require('css');
 const { match } = require('assert');
+const layout = require('./layout');
 const EOF = Symbol("EOF"); // end of file
 let currentToken = null;
 let currentAttribute = null;
@@ -142,6 +143,7 @@ function emit(token) {
             if (top.tagName === 'style') {
                 addCssRules(top.children[0].content);
             }
+            layout(top)
             stack.pop();
         }
         currentTextNode = null;
@@ -243,7 +245,26 @@ function beforeAttributeName(c) {
 }
 
 function afterAttributeName(c) {
-    
+    if (c.match(/^[\t\n\f ]$/)) {
+        return afterAttributeName;
+    } else if (c === "/") {
+        return selfClosingStartTag;
+    } else if (c === "=") {
+        return beforeAttributeValue;
+    } else if (c === ">") {
+        currentToken[currentAttribute.name] = currentAttribute.value;
+        emit(currentToken);
+        return data;
+    } else if (c === EOF){
+
+    } else {
+        currentToken[currentAttribute.name] = currentAttribute.value;
+        currentAttribute = {
+            name: "",
+            value: ""
+        }
+        return attributeName(c);
+    }
 }
 function attributeName(c) {
     if (c.match(/^[\t\n\f]/) || c == '/' || c == '>' || c == EOF) {
