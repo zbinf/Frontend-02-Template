@@ -11,6 +11,7 @@ function render(viewport, element) {
         }
     }
     if (element.children) {
+        // 渲染dom树
         for (const child of element.children) {
             render(viewport, child);
         }
