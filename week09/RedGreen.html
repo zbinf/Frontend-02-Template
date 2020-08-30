@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>红绿灯</title>
+
+    <style>
+        div{
+            background-color: grey;
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            margin: 30px;
+            border-radius: 100%;
+        }
+        .green{
+            background-color: green;
+        }
+        .yellow{
+            background-color: yellow;
+        }
+        .red{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="green" class=""></div>
+    <div id="yellow" class=""></div>
+    <div id="red" class=""></div>
+
+    <script>
+        function green() {
+            let green = document.getElementById('green');
+            let yellow = document.getElementById('yellow');
+            let red = document.getElementById('red');
+            green.className = 'green';
+            yellow.className = '';
+            red.className = '';
+        }
+        function yellow() {
+            let green = document.getElementById('green');
+            let yellow = document.getElementById('yellow');
+            let red = document.getElementById('red');
+            green.className = '';
+            yellow.className = 'yellow';
+            red.className = '';
+        }
+        function red() {
+            let green = document.getElementById('green');
+            let yellow = document.getElementById('yellow');
+            let red = document.getElementById('red');
+            green.className = '';
+            yellow.className = '';
+            red.className = 'red';
+        }
+
+        function sleep(t) {
+            return new Promise((reslove, reject) => {
+                setTimeout(reslove, t);
+            })
+        }
+        async function go() {
+            while (true) {
+                green();
+                await sleep(10000);
+                yellow();
+                await sleep(2000);
+                red();
+                await sleep(1000);
+            }
+        }
+    </script>
+</body>
+</html>

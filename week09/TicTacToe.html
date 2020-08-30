@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小游戏-三子棋</title>
+</head>
+<body>
+    <style>
+        .cell{
+            width: 100px;
+            height: 100px;
+            background-color:#000;
+            display: inline-block;
+            border: 1px solid #fff;
+            vertical-align: middle;
+            line-height: 100px;
+            font-size: 50px;
+            text-align: center;
+        }
+    </style>
+
+    <div id="board"></div>
+
+    <script>
+        // 建立二维数组，表示棋盘
+        // 分别用0，1，2的数值表示棋盘格的状态：空，圆圈，叉
+        let pattern = [
+            [0,0,0],
+            [0,1,0],
+            [0,0,0],
+        ];
+        let color = 2;
+
+        // 将棋盘画出来
+        function show() {
+            let board = document.getElementById('board');
+            board.innerHTML = '';
+
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    let cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    // 一行一行画出来
+                    cell.innerText = 
+                        pattern[i][j] == 2 ? "❌" :
+                        pattern[i][j] == 1 ? "⭕️" : '';
+                    // console.log(i, j, pattern[i][j]);
+                    // 新增事件监听
+                    cell.addEventListener('click', () => userMove(i, j));
+
+                    board.appendChild(cell);
+                }
+                board.appendChild(document.createElement('br'));
+            }
+        }
+
+        function userMove(x,y) {
+            pattern[x][y] = color;
+            // 判断胜负
+            if (check(pattern, color)) alert(color == 2 ? "❌ is winner!" : "⭕️ is winner!");
+            // console.log('check()', check());
+            color = 3 - color;
+            show();
+            computerMove();
+        }
+
+        // 判断胜负
+        function check(pattern, color) {
+            // 同一行
+            for (let i = 0; i < 3; i++) {
+                let win = true;
+                for (let j = 0; j < 3; j++) {
+                    if (pattern[i][j] !== color) win = false;
+                }
+                if (win) return true;
+            }
+            // 同一列
+            for (let i = 0; i < 3; i++) {
+                let win = true;
+                for (let j = 0; j < 3; j++) {
+                    if (pattern[j][i] !== color) win = false;
+                }
+                if (win) return true;
+            }
+            // 斜线 - 左边为开始端的斜线，(x,y) x,y都相等
+            {
+                let win = true;
+                for (let j = 0; j < 3; j++) {
+                    if (pattern[j][j] !== color) win = false;
+                }
+                if (win) return true;
+            }
+            // 斜线 - 右边为开始端的斜线 x+y = 2
+            {
+                let win = true;
+                for (let j = 0; j < 3; j++) {
+                    if (pattern[j][2 - j] !== color) win = false;
+                }
+                if (win) return true;
+            }
+            return false;
+        }
+
+        // 预判胜负 
+        // 循环遍历每个空节点，若有一个点在进行check时变为true，则可以预判为赢
+        function wilWin(pattern, color) {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (pattern[i][j]) continue;
+                    let tmp = JSON.parse(JSON.stringify(pattern)); // 克隆出一个新的数组
+                    tmp[i][j] = color;
+                    if (check(tmp, color)) return [j, i];
+                }
+            }
+            return null;
+        }
+
+        // 选择最好的 策略
+        function bestChoice(pattern, color) {
+            let p;
+            if (p = wilWin(pattern, color)) {
+                return {
+                    point: p,
+                    result: 1,
+                }
+            }
+            let result = -2;
+            let point = null;
+
+            outer:for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (pattern[i][j]) continue;
+                    let tmp = JSON.parse(JSON.stringify(pattern)); 
+                    tmp[i][j] = color;
+                    let r = bestChoice(tmp, 3 - color).result;
+                    if (- r > result) {
+                        result = - r;
+                        point = [j, i];
+                    }
+                    if (result == 1) break outer; // 结束掉2层循环要加个label
+                }
+            }
+            // 和棋
+            return {
+                point: point,
+                result: point ? result : 0
+            }
+        }
+
+        // 机器人对战
+        function computerMove() {
+            let chioce = bestChoice(pattern, color);
+            if (chioce.point) pattern[chioce.point[1]][chioce.point[0]] = color;
+            if (check(pattern, color)) alert(color == 2 ? "❌ is winner!" : "⭕️ is winner!");
+            color = 3 - color;
+            show();
+        }
+        show();
+        console.log(bestChoice(pattern, color));
+    </script>
+</body>
+</html>
